@@ -1,0 +1,176 @@
+<div class="page">
+  <div class="card">
+    <div class="card-header">
+      <div class="title">IT 04-1</div>
+      <div class="status" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+    </div>
+
+    <form nz-form nzLayout="vertical" [formGroup]="form" novalidate>
+      <div class="form-grid">
+        <div class="column">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input
+              id="firstName"
+              type="text"
+              nz-input
+              formControlName="firstName"
+            />
+            <div
+              class="error"
+              *ngIf="f['firstName'].invalid && f['firstName'].touched"
+            >
+              First name is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              nz-input
+              formControlName="email"
+            />
+            <div class="error" *ngIf="f['email'].touched && f['email'].errors">
+              <span *ngIf="f['email'].errors['required']">
+                Email is required.
+              </span>
+              <span *ngIf="f['email'].errors['email']">
+                Email format is invalid.
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="profile">Profile</label>
+            <div class="file-row">
+              <input
+                id="profile"
+                type="text"
+                class="file-name"
+                nz-input
+                [value]="f['profileBase64'].value ? 'File selected' : ''"
+                readonly
+              />
+              <button type="button" class="browse-btn">
+                <label>
+                  Browse
+                  <input type="file" (change)="onFileSelected($event)" hidden />
+                </label>
+              </button>
+            </div>
+            <div
+              class="error"
+              *ngIf="f['profileBase64'].invalid && f['profileBase64'].touched"
+            >
+              Please select a profile file.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="occupation">Occupation</label>
+            <nz-select
+              id="occupation"
+              formControlName="occupation"
+              nzPlaceHolder="Select occupation"
+            >
+              <nz-option
+                *ngFor="let o of occupations"
+                [nzValue]="o"
+                [nzLabel]="o"
+              ></nz-option>
+            </nz-select>
+            <div
+              class="error"
+              *ngIf="f['occupation'].invalid && f['occupation'].touched"
+            >
+              Occupation is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input
+              id="lastName"
+              type="text"
+              nz-input
+              formControlName="lastName"
+            />
+            <div
+              class="error"
+              *ngIf="f['lastName'].invalid && f['lastName'].touched"
+            >
+              Last name is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input
+              id="phone"
+              type="tel"
+              nz-input
+              formControlName="phone"
+              (input)="onPhoneInput($event)"
+            />
+            <div class="error" *ngIf="f['phone'].touched && f['phone'].errors">
+              <span *ngIf="f['phone'].errors['required']">
+                Phone is required.
+              </span>
+              <span *ngIf="f['phone'].errors['pattern']">
+                Phone must be 9-10 digits.
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="birthDay">Birth Day</label>
+            <nz-date-picker
+              id="birthDay"
+              formControlName="birthDay"
+              nzFormat="dd/MM/yyyy"
+              style="width: 100%"
+            ></nz-date-picker>
+            <div
+              class="error"
+              *ngIf="f['birthDay'].invalid && f['birthDay'].touched"
+            >
+              Birth day is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Sex</label>
+            <nz-radio-group formControlName="sex" class="radio-row">
+              <label nz-radio nzValue="Male">Male</label>
+              <label nz-radio nzValue="Female">Female</label>
+            </nz-radio-group>
+            <div class="error" *ngIf="f['sex'].invalid && f['sex'].touched">
+              Sex is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button
+          nz-button
+          nzType="primary"
+          type="button"
+          class="btn primary"
+          (click)="onSave()"
+        >
+          Save
+        </button>
+        <button nz-button type="button" class="btn" (click)="onClear()">
+          Clear
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
